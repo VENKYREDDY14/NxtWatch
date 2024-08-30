@@ -2,6 +2,8 @@ import {Component} from 'react'
 
 import Cookies from 'js-cookie'
 
+import {Redirect} from 'react-router-dom'
+
 import {
   Img,
   Label,
@@ -23,10 +25,8 @@ class App extends Component {
   }
   onSubmitSuccess = jwtToken => {
     Cookies.set('jwt_token', jwtToken, {expires: 10})
-    this.setState(prevState => ({
-      username: '',
-      password: '',
-    }))
+    const {history} = this.props
+    history.replace('/')
   }
   onSubmitFailure = error => {
     this.setState(prevState => ({
@@ -64,6 +64,7 @@ class App extends Component {
   }
   render() {
     const {username, password, errorMsg, showError, showPassword} = this.state
+
     return (
       <LoginContainer>
         <form onSubmit={this.renderLoginDetails}>
