@@ -2,8 +2,6 @@ import {Component} from 'react'
 
 import Cookies from 'js-cookie'
 
-import {Redirect} from 'react-router-dom'
-
 import {
   Img,
   Label,
@@ -23,11 +21,13 @@ class App extends Component {
     errorMsg: '',
     showPassword: false,
   }
+
   onSubmitSuccess = jwtToken => {
     Cookies.set('jwt_token', jwtToken, {expires: 10})
     const {history} = this.props
     history.replace('/')
   }
+
   onSubmitFailure = error => {
     this.setState(prevState => ({
       showError: !prevState.showError,
@@ -36,15 +36,19 @@ class App extends Component {
       password: '',
     }))
   }
+
   onChangeUsername = event => {
     this.setState({username: event.target.value})
   }
+
   onChangePassword = event => {
     this.setState({password: event.target.value})
   }
+
   onShowPassword = () => {
     this.setState(prevState => ({showPassword: !prevState.showPassword}))
   }
+
   renderLoginDetails = async event => {
     event.preventDefault()
     const {username, password} = this.state
@@ -62,6 +66,7 @@ class App extends Component {
       this.onSubmitFailure(data.error_msg)
     }
   }
+
   render() {
     const {username, password, errorMsg, showError, showPassword} = this.state
 
