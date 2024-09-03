@@ -1,3 +1,4 @@
+import {Link} from 'react-router-dom'
 
 import {IoMdHome} from 'react-icons/io'
 
@@ -6,6 +7,7 @@ import {FaGripfire} from 'react-icons/fa'
 import {SiYoutubegaming} from 'react-icons/si'
 
 import {RiPlayListAddLine} from 'react-icons/ri'
+
 import ThemeContext from '../../context/ThemeContext'
 
 import ContactUs from '../ContactUs'
@@ -19,37 +21,86 @@ import {
 
 import './index.css'
 
+const siderBarItems = [
+  {
+    id: 'HOME',
+    displayText: 'Home',
+    path: '/',
+  },
+  {
+    id: 'TRENDING',
+    displayText: 'Trending',
+    path: '/trending',
+  },
+  {
+    id: 'GAMING',
+    displayText: 'Gaming',
+    path: '/gaming',
+  },
+  {
+    id: 'SAVED VIDEOS',
+    displayText: 'Saved videos',
+    path: '/saved-videos',
+  },
+]
+
 const Sidebar = () => (
   <ThemeContext.Consumer>
     {value => {
-      const {isDarkTheme} = value
+      const {isDarkTheme, activeTab, onChangeActiveTab} = value
+
       return (
         <SidebarMainContainer>
           <SidebarContainer>
-            <ItemContainer>
-              <IoMdHome
-                className={isDarkTheme ? 'styling-icon1' : 'styling-icon'}
-              />
-              <Heading>Home</Heading>
-            </ItemContainer>
-            <ItemContainer>
-              <FaGripfire
-                className={isDarkTheme ? 'styling-icon1' : 'styling-icon'}
-              />
-              <Heading>Trending</Heading>
-            </ItemContainer>
-            <ItemContainer>
-              <SiYoutubegaming
-                className={isDarkTheme ? 'styling-icon1' : 'styling-icon'}
-              />
-              <Heading>Gaming</Heading>
-            </ItemContainer>
-            <ItemContainer>
-              <RiPlayListAddLine
-                className={isDarkTheme ? 'styling-icon1' : 'styling-icon'}
-              />
-              <Heading>Saved videos</Heading>
-            </ItemContainer>
+            {siderBarItems.map(eachItem => (
+              <Link to={eachItem.path} className="link-item">
+                <ItemContainer
+                  key={eachItem.id}
+                  bgColor={eachItem.id === activeTab}
+                  onClick={() => {
+                    onChangeActiveTab(eachItem.id)
+                  }}
+                >
+                  {eachItem.id === 'HOME' && (
+                    <IoMdHome
+                      className={`${
+                        isDarkTheme ? 'styling-icon1' : 'styling-icon'
+                      } ${
+                        eachItem.id === activeTab ? 'red-color' : 'black-color'
+                      }`}
+                    />
+                  )}
+                  {eachItem.id === 'TRENDING' && (
+                    <FaGripfire
+                      className={`${
+                        isDarkTheme ? 'styling-icon1' : 'styling-icon'
+                      } ${
+                        eachItem.id === activeTab ? 'red-color' : 'black-color'
+                      }`}
+                    />
+                  )}
+                  {eachItem.id === 'GAMING' && (
+                    <SiYoutubegaming
+                      className={`${
+                        isDarkTheme ? 'styling-icon1' : 'styling-icon'
+                      } ${
+                        eachItem.id === activeTab ? 'red-color' : 'black-color'
+                      }`}
+                    />
+                  )}
+                  {eachItem.id === 'SAVED VIDEOS' && (
+                    <RiPlayListAddLine
+                      className={`${
+                        isDarkTheme ? 'styling-icon1' : 'styling-icon'
+                      } ${
+                        eachItem.id === activeTab ? 'red-color' : 'black-color'
+                      }`}
+                    />
+                  )}
+                  <Heading>{eachItem.displayText}</Heading>
+                </ItemContainer>
+              </Link>
+            ))}
           </SidebarContainer>
           <ContactUs />
         </SidebarMainContainer>

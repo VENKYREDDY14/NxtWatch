@@ -2,6 +2,8 @@ import {Component} from 'react'
 
 import Cookies from 'js-cookie'
 
+import {Redirect} from 'react-router-dom'
+
 import {
   Img,
   Label,
@@ -69,6 +71,10 @@ class App extends Component {
 
   render() {
     const {username, password, errorMsg, showError, showPassword} = this.state
+    const jwtToken = Cookies.get('jwt_token')
+    if (jwtToken !== undefined) {
+      return <Redirect to="/" />
+    }
 
     return (
       <LoginContainer>
@@ -96,8 +102,13 @@ class App extends Component {
           </CredentialContainer>
           <div>
             <CheckBoxContainer>
-              <input type="checkbox" onChange={this.onShowPassword} />
-              <p>Show Password</p>
+              <input
+                type="checkbox"
+                onChange={this.onShowPassword}
+                id="showPassword"
+              />
+              <br />
+              <Label for="showPassword">Show Password</Label>
             </CheckBoxContainer>
           </div>
           <div>

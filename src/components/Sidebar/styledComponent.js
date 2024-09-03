@@ -9,10 +9,12 @@ export const Heading = styled.h1`
 export const ItemContainer = styled.button`
   display: flex;
   border-style: none;
-  background: none;
+  background: ${props => (props.bgColor ? '#94a3b8' : 'none')};
+  margin-right: 20px;
+  width: 200px;
 `
-export const SidebarContainer = styled.div`
-  width: 30%;
+export const SidebarContainer = styled.ul`
+  list-style-type: none;
 `
 export const SidebarMainContainer = styled.div`
   display: flex;

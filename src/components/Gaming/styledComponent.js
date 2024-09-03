@@ -43,7 +43,7 @@ export const UnorderedList = styled.ul`
   flex-wrap: wrap;
 `
 export const GamingMainContainer = styled.div`
-  background-color: ${props => props.isDark && '#212121'};
+  background-color: ${props => (props.isDark ? '#0f0f0f' : '#f9f9f9')};
 `
 export const RetryButton = styled.button`
   background-color: #4f46e5;

@@ -9,7 +9,6 @@ import Navbar from '../Navbar'
 
 import Sidebar from '../Sidebar'
 
-
 import GamingItem from '../GamingItem'
 
 import ThemeContext from '../../context/ThemeContext'
@@ -90,25 +89,26 @@ class Gaming extends Component {
   }
 
   renderFailure = isDarkTheme => (
-      <>
-        <ErrorContainer>
-          <ErrorImage
-            src={
-              isDarkTheme
-                ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
-                : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
-            }
-          />
-          <Heading1 isDark={isDarkTheme}>Oops! Something Went Wrong</Heading1>
-          <Description>
-            We are having trouble to complete your request.Please try again.
-          </Description>
-          <div>
-            <RetryButton onClick={this.retryRender}>Retry</RetryButton>
-          </div>
-        </ErrorContainer>
-      </>
-    )
+    <>
+      <ErrorContainer>
+        <ErrorImage
+          src={
+            isDarkTheme
+              ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
+              : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
+          }
+          alt="failure view"
+        />
+        <Heading1 isDark={isDarkTheme}>Oops! Something Went Wrong</Heading1>
+        <Description>
+          We are having trouble to complete your request.Please try again.
+        </Description>
+        <div>
+          <RetryButton onClick={this.retryRender}>Retry</RetryButton>
+        </div>
+      </ErrorContainer>
+    </>
+  )
 
   renderLoading = () => (
     <LoadingContainer>
@@ -139,7 +139,7 @@ class Gaming extends Component {
           const {isDarkTheme} = value
           return (
             <>
-              <GamingMainContainer isDark={isDarkTheme}>
+              <GamingMainContainer isDark={isDarkTheme} data-testid="gaming">
                 <Navbar />
                 <GamingContainer>
                   <SidebarContainer>

@@ -6,6 +6,8 @@ import {IoIosSearch} from 'react-icons/io'
 
 import Cookies from 'js-cookie'
 
+import {MdClear} from 'react-icons/md'
+
 import Navbar from '../Navbar'
 
 import Sidebar from '../Sidebar'
@@ -18,7 +20,6 @@ import {
   HomeBg,
   Img,
   GetItButton,
-  Heading,
   HomeContainer,
   SearchContainer,
   Input,
@@ -33,6 +34,7 @@ import {
   ErrorContainer,
   LoadingContainer,
   HomeMainContainer,
+  CloseButton,
 } from './styledComponent'
 
 const apiStatusConstants = {
@@ -43,7 +45,12 @@ const apiStatusConstants = {
 }
 
 class Home extends Component {
-  state = {searchInput: '', apiStaus: apiStatusConstants.initial, data: []}
+  state = {
+    searchInput: '',
+    apiStaus: apiStatusConstants.initial,
+    data: [],
+    isbannerExists: true,
+  }
 
   componentDidMount() {
     this.renderHomeDetails()
@@ -64,7 +71,7 @@ class Home extends Component {
     const response = await fetch(url, options)
     const data = await response.json()
     if (response.ok) {
-      const {total, videos = []} = data
+      const {videos = []} = data
       const formatedData = videos.map(eachVideo => ({
         channel: eachVideo.channel,
         id: eachVideo.id,
@@ -87,6 +94,7 @@ class Home extends Component {
 
   onSearch = () => {
     this.renderHomeDetails()
+    this.setState({searchInput: ''})
   }
 
   retryRender = () => {
@@ -100,10 +108,13 @@ class Home extends Component {
       <>
         {length === 0 ? (
           <ErrorContainer>
-            <ErrorImage src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png" />
+            <ErrorImage
+              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
+              alt="no videos"
+            />
             <Heading1>No Search results found</Heading1>
             <Description>
-              Try different keywords or remove search filter
+              Try different key words or remove search filter
             </Description>
             <div>
               <RetryButton onClick={this.retryRender}>Retry</RetryButton>
@@ -129,25 +140,24 @@ class Home extends Component {
   )
 
   renderFailure = isDarkTheme => (
-      <>
-        <ErrorContainer>
-          <ErrorImage
-            src={
-              isDarkTheme
-                ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
-                : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
-            }
-          />
-          <Heading1 isDark={isDarkTheme}>Oops! Something Went Wrong</Heading1>
-          <Description>
-            We are having trouble to complete your request.Please try again.
-          </Description>
-          <div>
-            <RetryButton onClick={this.retryRender}>Retry</RetryButton>
-          </div>
-        </ErrorContainer>
-      </>
-    )
+    <>
+      <ErrorContainer>
+        <ErrorImage
+          src={
+            isDarkTheme
+              ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-dark-theme-img.png'
+              : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
+          }
+          alt="failure view"
+        />
+        <Heading1 isDark={isDarkTheme}>Oops! Something Went Wrong</Heading1>
+        <Description>We are having some trouble</Description>
+        <div>
+          <RetryButton onClick={this.retryRender}>Retry</RetryButton>
+        </div>
+      </ErrorContainer>
+    </>
+  )
 
   renderHome = isDarkTheme => {
     const {apiStaus} = this.state
@@ -163,37 +173,62 @@ class Home extends Component {
     }
   }
 
+  removeBanner = () => {
+    this.setState({isbannerExists: false})
+  }
+
   render() {
+    const {isbannerExists, searchInput} = this.state
     return (
       <ThemeContext.Consumer>
         {value => {
           const {isDarkTheme} = value
           return (
             <>
-              <HomeMainContainer isDark={isDarkTheme}>
+              <HomeMainContainer isDark={isDarkTheme} data-testid="home">
                 <Navbar />
                 <HomeContainer>
                   <SidebarWidth>
                     <Sidebar />
                   </SidebarWidth>
                   <HomeBgMain>
-                    <HomeBg>
-                      <Img src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png" />
-                      <Heading>
-                        Buy Nxt Watch Premium prepaid plans with UPI
-                      </Heading>
-                      <GetItButton>GET IT NOW</GetItButton>
-                    </HomeBg>
-                    <SearchContainer isDark={isDarkTheme}>
-                      <Input
-                        type="search"
-                        onChange={this.onChangeSearchInput}
-                        isDark={isDarkTheme}
-                      />
-                      <IconContainer isDark={isDarkTheme}>
-                        <IoIosSearch onClick={this.onSearch} />
-                      </IconContainer>
-                    </SearchContainer>
+                    {isbannerExists ? (
+                      <HomeBg data-testid="banner">
+                        <CloseButton
+                          onClick={this.removeBanner}
+                          data-testid="close"
+                          isDark={isDarkTheme}
+                        >
+                          <MdClear />
+                        </CloseButton>
+                        <Img
+                          src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
+                          alt="nxt watch logo"
+                        />
+                        <Description>
+                          Buy Nxt Watch Premium prepaid plans with UPI
+                        </Description>
+                        <GetItButton>GET IT NOW</GetItButton>
+                      </HomeBg>
+                    ) : (
+                      ''
+                    )}
+                    <div>
+                      <SearchContainer isDark={isDarkTheme}>
+                        <Input
+                          type="search"
+                          onChange={this.onChangeSearchInput}
+                          isDark={isDarkTheme}
+                          value={searchInput}
+                        />
+                        <IconContainer
+                          isDark={isDarkTheme}
+                          data-testid="searchButton"
+                        >
+                          <IoIosSearch onClick={this.onSearch} />
+                        </IconContainer>
+                      </SearchContainer>
+                    </div>
                     {this.renderHome(isDarkTheme)}
                   </HomeBgMain>
                 </HomeContainer>

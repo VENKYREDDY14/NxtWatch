@@ -4,14 +4,15 @@ export const Img = styled.img`
   height: 50px;
   width: 200px;
 `
-export const NavbarContainer = styled.div`
+export const NavbarContainer = styled.ul`
   background-color: ${props => (props.DarkTheme ? '#212121' : '#ffffff')};
   display: flex;
   justify-content: space-between;
   margin: 0;
+  list-style-type: none;
 `
 
-export const LogoutContainer = styled.div`
+export const LogoutContainer = styled.li`
   display: flex;
 `
 

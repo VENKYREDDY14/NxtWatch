@@ -16,23 +16,87 @@ import Gaming from './components/Gaming'
 
 import NotFound from './components/NotFound'
 
+import VideoItemDetails from './components/VideoItemDetails'
+
+import SavedVideos from './components/SavedVideos'
+
 import './App.css'
 
 class App extends Component {
-  state = {isDarkTheme: false}
+  state = {
+    isDarkTheme: false,
+    savedVideos: [],
+    activeTab: '',
+    isLiked: false,
+    isDisLiked: false,
+    isSaved: false,
+  }
 
-  ToggleDarkTheme = () => {
+  toggleDarkTheme = () => {
     this.setState(prevState => ({isDarkTheme: !prevState.isDarkTheme}))
   }
 
+  saveItem = video => {
+    const {savedVideos} = this.state
+    const isVideoAlreadyExists = savedVideos.some(each => each.id === video.id)
+    if (isVideoAlreadyExists) {
+      this.setState(prevState => ({savedVideos: prevState.savedVideos}))
+    } else {
+      this.setState(prevState => ({
+        savedVideos: [...prevState.savedVideos, video],
+      }))
+    }
+  }
+
+  removeItem = data => {
+    const {savedVideos} = this.state
+    const filteredData = savedVideos.filter(eachItem => eachItem.id !== data.id)
+    console.log(filteredData)
+    this.setState({savedVideos: filteredData})
+  }
+
+  onChangeActiveTab = id => {
+    this.setState({activeTab: id})
+  }
+
+  toggleLike = () => {
+    this.setState({isLiked: true, isDisLiked: false})
+  }
+
+  toggleDisLike = () => {
+    this.setState({isDisLiked: true, isLiked: false})
+  }
+
+  toggleSave = () => {
+    this.setState(prevState => ({isSaved: !prevState.isSaved}))
+  }
+
   render() {
-    const {isDarkTheme} = this.state
+    const {
+      isDarkTheme,
+      savedVideos,
+      activeTab,
+      isLiked,
+      isDisLiked,
+      isSaved,
+    } = this.state
 
     return (
       <ThemeContext.Provider
         value={{
           isDarkTheme,
-          ToggleDarkTheme: this.ToggleDarkTheme,
+          toggleDarkTheme: this.toggleDarkTheme,
+          saveItem: this.saveItem,
+          savedVideos,
+          removeItem: this.removeItem,
+          onChangeActiveTab: this.onChangeActiveTab,
+          activeTab,
+          isLiked,
+          isDisLiked,
+          isSaved,
+          toggleLike: this.toggleLike,
+          toggleDisLike: this.toggleDisLike,
+          toggleSave: this.toggleSave,
         }}
       >
         <Switch>
@@ -40,6 +104,12 @@ class App extends Component {
           <ProtectedRoute exact path="/" component={Home} />
           <ProtectedRoute exact path="/trending" component={Trending} />
           <ProtectedRoute exact path="/gaming" component={Gaming} />
+          <ProtectedRoute
+            exact
+            path="/videos/:id"
+            component={VideoItemDetails}
+          />
+          <ProtectedRoute exact path="/saved-videos" component={SavedVideos} />
           <Route component={NotFound} />
         </Switch>
       </ThemeContext.Provider>

@@ -1,8 +1,10 @@
-import {formatDistanceToNow} from 'date-fns'
+import {Link} from 'react-router-dom'
 
 import ThemeContext from '../../context/ThemeContext'
 
-import {Img, Heading, Description, ListItem} from './styledComponent'
+import {Img, Description, ListItem} from './styledComponent'
+
+import './index.css'
 
 const GamingItem = props => {
   const {eachItem} = props
@@ -13,13 +15,15 @@ const GamingItem = props => {
         const {isDarkTheme} = value
         return (
           <>
-            <ListItem>
-              <div>
-                <Img src={thumbnailUrl} />
-                <Heading isDark={isDarkTheme}>{title}</Heading>
-                <Description>{viewCount} Watching Worldwide</Description>
-              </div>
-            </ListItem>
+            <Link to={`/videos/${id}`} className="link-item">
+              <ListItem>
+                <div>
+                  <Img src={thumbnailUrl} alt="video thumbnail" />
+                  <Description isDark={isDarkTheme}>{title}</Description>
+                  <Description>{viewCount} Watching Worldwide</Description>
+                </div>
+              </ListItem>
+            </Link>
           </>
         )
       }}

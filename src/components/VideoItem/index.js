@@ -1,6 +1,10 @@
 import {formatDistanceToNow} from 'date-fns'
 
+import {Link} from 'react-router-dom'
+
 import ThemeContext from '../../context/ThemeContext'
+
+import './index.css'
 
 import {
   Img,
@@ -20,23 +24,26 @@ const VideoItem = props => {
         const {isDarkTheme} = value
         return (
           <>
-            <ListItem>
-              <Img src={thumbnailUrl} />
-              <ImageBottom>
-                <div>
-                  <Img1 src={channel.profile_image_url} />
-                </div>
-                <div>
-                  <Description isDark={isDarkTheme}>{title}</Description>
-                  <Title>{channel.name}</Title>
+            <Link to={`/videos/${id}`} className="link-item">
+              <ListItem>
+                <Img src={thumbnailUrl} alt="video thumbnail" />
+                <ImageBottom>
                   <div>
-                    <Title>
-                      {viewCount} . {formatDistanceToNow(new Date(publishedAt))}
-                    </Title>
+                    <Img1 src={channel.profile_image_url} alt="channel logo" />
                   </div>
-                </div>
-              </ImageBottom>
-            </ListItem>
+                  <div>
+                    <Description isDark={isDarkTheme}>{title}</Description>
+                    <Title>{channel.name}</Title>
+                    <div>
+                      <Title>
+                        {viewCount} .
+                        {formatDistanceToNow(new Date(publishedAt))}
+                      </Title>
+                    </div>
+                  </div>
+                </ImageBottom>
+              </ListItem>
+            </Link>
           </>
         )
       }}

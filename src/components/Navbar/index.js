@@ -1,8 +1,12 @@
 import {Component} from 'react'
 
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
+
+import Popup from 'reactjs-popup'
 
 import ThemeContext from '../../context/ThemeContext'
+
+import Logout from '../Logout'
 
 import {
   Img,
@@ -15,40 +19,56 @@ import {
 } from './styledComponent'
 
 class Navbar extends Component {
-  onChangePath = () => {
-    const {history} = this.props
-    history.replace('/')
-  }
-
   render() {
     return (
       <ThemeContext.Consumer>
         {value => {
-          const {isDarkTheme, ToggleDarkTheme} = value
+          const {isDarkTheme, toggleDarkTheme} = value
           return (
             <>
               <NavbarContainer DarkTheme={isDarkTheme}>
-                <div>
-                  <Img
-                    src={
-                      isDarkTheme
-                        ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
-                        : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
-                    }
-                    onClick={this.onChangePath}
-                  />
-                </div>
+                <li>
+                  <Link to="/">
+                    <Img
+                      src={
+                        isDarkTheme
+                          ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
+                          : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
+                      }
+                      alt="website logo"
+                    />
+                  </Link>
+                </li>
                 <LogoutContainer>
-                  <ThemeButton onClick={ToggleDarkTheme}>
+                  <ThemeButton onClick={toggleDarkTheme} data-testid="theme">
                     {isDarkTheme ? (
                       <Img2 src="https://assets.ccbp.in/frontend/react-js/light-theme-img.png" />
                     ) : (
                       <Img2 src="https://assets.ccbp.in/frontend/react-js/dark-theme-img.png" />
                     )}
                   </ThemeButton>
-                  <Img3 src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png" />
+                  <Img3
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png"
+                    alt="profile"
+                  />
                   <div>
-                    <LogoutButton DarkTheme={isDarkTheme}>Logout</LogoutButton>
+                    <Popup
+                      modal
+                      trigger={
+                        <LogoutButton DarkTheme={isDarkTheme}>
+                          Logout
+                        </LogoutButton>
+                      }
+                      className="popup-content"
+                    >
+                      {close => (
+                        <>
+                          <div>
+                            <Logout close={close} />
+                          </div>
+                        </>
+                      )}
+                    </Popup>
                   </div>
                 </LogoutContainer>
               </NavbarContainer>

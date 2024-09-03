@@ -7,7 +7,7 @@ export const Img = styled.img`
 export const Heading = styled.h1`
   font-family: 'Roboto';
   font-size: 20px;
-  color: ${props => props.isDark && '#ffffff'};
+  color: ${props => (props.isDark ? '#ffffff' : '#000000')};
 `
 export const Description = styled.p`
   font-family: 'Roboto';

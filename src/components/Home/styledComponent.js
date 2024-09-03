@@ -50,7 +50,7 @@ export const Input = styled.input`
   background-color: ${props => props.isDark && '#000000'};
   color: ${props => (props.isDark ? '#ffffff' : '#000000')};
 `
-export const IconContainer = styled.div`
+export const IconContainer = styled.button`
 border-style:solid;
 border-width:1px;
 height:30px;
@@ -106,5 +106,13 @@ export const LoadingContainer = styled.div`
   height: 100vh;
 `
 export const HomeMainContainer = styled.div`
-  background-color: ${props => props.isDark && '#000000'};
+  background-color: ${props => (props.isDark ? '#181818' : '#f9f9f9')};
+`
+export const CloseButton = styled.button`
+  text-align: end;
+  width: 70vw;
+  background: none;
+  border-style: none;
+  margin-bottom: 20px;
+  color: ${props => (props.isDark ? '#ffffff' : '')};
 `
