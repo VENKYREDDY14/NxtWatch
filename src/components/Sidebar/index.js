@@ -55,11 +55,11 @@ const Sidebar = () => (
             {siderBarItems.map(eachItem => (
               <Link to={eachItem.path} className="link-item">
                 <ItemContainer
-                  key={eachItem.id}
                   bgColor={eachItem.id === activeTab}
                   onClick={() => {
                     onChangeActiveTab(eachItem.id)
                   }}
+                  key={eachItem.id}
                 >
                   {eachItem.id === 'HOME' && (
                     <IoMdHome
@@ -97,7 +97,7 @@ const Sidebar = () => (
                       }`}
                     />
                   )}
-                  <Heading>{eachItem.displayText}</Heading>
+                  <Heading key={eachItem.id}>{eachItem.displayText}</Heading>
                 </ItemContainer>
               </Link>
             ))}

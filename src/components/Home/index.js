@@ -61,7 +61,7 @@ class Home extends Component {
     const jwtToken = Cookies.get('jwt_token')
     const {searchInput} = this.state
     const url = `https://apis.ccbp.in/videos/all?search=${searchInput}`
-    console.log(url)
+
     const options = {
       method: 'GET',
       headers: {

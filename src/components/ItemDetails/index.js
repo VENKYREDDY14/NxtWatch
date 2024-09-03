@@ -24,24 +24,31 @@ import {
 } from './styledComponent'
 
 const ItemDetails = props => {
-  const {
-    data,
-    onClickLike,
-    onClickDisLike,
-    isLiked,
-    isDisLiked,
-    onClickSave,
-    isSaved,
-  } = props
+  const {data, onClickLike, onClickDisLike} = props
 
-  const {channel, publishedAt, title, videoUrl, viewCount, description} = data
+  const {
+    channel,
+    publishedAt,
+    title,
+    videoUrl,
+    viewCount,
+    description,
+    id,
+  } = data
   return (
     <ThemeContext.Consumer>
       {value => {
-        const {isDarkTheme, saveItem, removeItem} = value
+        const {
+          isDarkTheme,
+          saveItem,
+          removeItem,
+          savedVideosId,
+          likedVideosIds,
+          disLikedVideosIds,
+        } = value
         return (
           <ItemMainContainer>
-            <div>
+            <li>
               <ReactPlayer url={videoUrl} />
               <Heading isDark={isDarkTheme}>{title}</Heading>
               <CountAndLikeContainer>
@@ -51,42 +58,47 @@ const ItemDetails = props => {
                   </Description>
                 </div>
                 <IconsContainer>
-                  <SaveButton onClick={onClickLike}>
+                  <SaveButton
+                    onClick={() => {
+                      onClickLike(id)
+                    }}
+                  >
                     <IconContainer>
-                      {isLiked ? (
+                      {likedVideosIds.includes(id) ? (
                         <Description1>Like</Description1>
                       ) : (
                         <Description>Like</Description>
                       )}
 
-                      <Icon isLiked={isLiked}>
+                      <Icon value={likedVideosIds.includes(id)}>
                         <AiOutlineLike />
                       </Icon>
                     </IconContainer>
                   </SaveButton>
                   <SaveButton onClick={onClickDisLike}>
                     <IconContainer>
-                      {isDisLiked ? (
+                      {disLikedVideosIds.includes(id) ? (
                         <Description1>Dislike</Description1>
                       ) : (
                         <Description>Dislike</Description>
                       )}
 
-                      <Icon isDisLiked={isDisLiked}>
+                      <Icon value={disLikedVideosIds.includes(id)}>
                         <AiOutlineDislike />
                       </Icon>
                     </IconContainer>
                   </SaveButton>
                   <IconContainer>
-                    {isSaved ? (
+                    {savedVideosId.includes(id) ? (
                       <SaveButton
                         onClick={() => {
                           removeItem(data)
-                          onClickSave()
                         }}
                       >
-                        <SaveButton1 isSaved={isSaved}>Saved</SaveButton1>
-                        <Icon isSaved={isSaved}>
+                        <SaveButton1 value={savedVideosId.includes(id)}>
+                          Saved
+                        </SaveButton1>
+                        <Icon value={savedVideosId.includes(id)}>
                           <RiPlayListAddLine />
                         </Icon>
                       </SaveButton>
@@ -94,11 +106,10 @@ const ItemDetails = props => {
                       <SaveButton
                         onClick={() => {
                           saveItem(data)
-                          onClickSave()
                         }}
                       >
-                        <SaveButton1 isSaved={isSaved}>Save</SaveButton1>
-                        <Icon isSaved={isSaved}>
+                        <SaveButton1>Save</SaveButton1>
+                        <Icon>
                           <RiPlayListAddLine />
                         </Icon>
                       </SaveButton>
@@ -118,7 +129,7 @@ const ItemDetails = props => {
                   <Description>{description}</Description>
                 </div>
               </DescriptionContainer>
-            </div>
+            </li>
           </ItemMainContainer>
         )
       }}

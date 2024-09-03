@@ -10,9 +10,8 @@ const ThemeContext = React.createContext({
   onChangeActiveTab: () => {},
   toggleIsLike: () => {},
   toggleDisLike: () => {},
-  toggleIsSave: () => {},
-  isLIked: false,
-  isDisLiked: false,
-  isSaved: false,
+  savedVideosId: [],
+  likedVideosIds: [],
+  disLikedVideosIds: [],
 })
 export default ThemeContext

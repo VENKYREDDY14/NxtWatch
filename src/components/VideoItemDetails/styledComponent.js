@@ -49,3 +49,6 @@ export const Heading1 = styled.h1`
 export const VideoMainContainer = styled.div`
   background-color: ${props => (props.isDark ? '#0f0f0f' : '#f9f9f9')};
 `
+export const List = styled.ul`
+  list-style-type: none;
+`

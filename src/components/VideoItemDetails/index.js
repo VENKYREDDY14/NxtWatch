@@ -23,6 +23,7 @@ import {
   ErrorImage,
   RetryButton,
   VideoMainContainer,
+  List,
 } from './styledComponent'
 
 const apiStatusConstants = {
@@ -80,28 +81,21 @@ class VideoItemDetails extends Component {
     this.getVideoDetails()
   }
 
-  renderSuccess = (
-    isLiked,
-    isDisLiked,
-    isSaved,
-    toggleLike,
-    toggleDisLike,
-    toggleSave,
-  ) => {
+  renderSuccess = (toggleLike, toggleDisLike) => {
     const {data} = this.state
     return (
       <>
-        <div>
+        <List>
           <ItemDetails
             data={data}
-            isLiked={isLiked}
-            isDisLiked={isDisLiked}
-            isSaved={isSaved}
-            onClickLike={toggleLike}
-            onClickDisLike={toggleDisLike}
-            onClickSave={toggleSave}
+            onClickLike={() => {
+              toggleLike(data.id)
+            }}
+            onClickDisLike={() => {
+              toggleDisLike(data.id)
+            }}
           />
-        </div>
+        </List>
       </>
     )
   }
@@ -138,24 +132,14 @@ class VideoItemDetails extends Component {
 
   renderVideo = (
     isDarkTheme,
-    isLiked,
-    isDisLiked,
-    isSaved,
+
     toggleLike,
     toggleDisLike,
-    toggleSave,
   ) => {
     const {apiStatus} = this.state
     switch (apiStatus) {
       case apiStatusConstants.success:
-        return this.renderSuccess(
-          isLiked,
-          isDisLiked,
-          isSaved,
-          toggleLike,
-          toggleDisLike,
-          toggleSave,
-        )
+        return this.renderSuccess(toggleLike, toggleDisLike)
       case apiStatusConstants.progress:
         return this.renderLoading()
       case apiStatusConstants.failure:
@@ -171,12 +155,9 @@ class VideoItemDetails extends Component {
         {value => {
           const {
             isDarkTheme,
-            isLiked,
-            isDisLiked,
-            isSaved,
+
             toggleLike,
             toggleDisLike,
-            toggleSave,
           } = value
           return (
             <>
@@ -194,12 +175,9 @@ class VideoItemDetails extends Component {
                       <MainContainer>
                         {this.renderVideo(
                           isDarkTheme,
-                          isLiked,
-                          isDisLiked,
-                          isSaved,
+
                           toggleLike,
                           toggleDisLike,
-                          toggleSave,
                         )}
                       </MainContainer>
                     </VideoItemsContainer>

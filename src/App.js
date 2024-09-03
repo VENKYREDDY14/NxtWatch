@@ -27,9 +27,9 @@ class App extends Component {
     isDarkTheme: false,
     savedVideos: [],
     activeTab: '',
-    isLiked: false,
-    isDisLiked: false,
-    isSaved: false,
+    savedVideosId: [],
+    likedVideosIds: [],
+    disLikedVideosIds: [],
   }
 
   toggleDarkTheme = () => {
@@ -44,31 +44,38 @@ class App extends Component {
     } else {
       this.setState(prevState => ({
         savedVideos: [...prevState.savedVideos, video],
+        savedVideosId: [...prevState.savedVideosId, video.id],
       }))
     }
   }
 
   removeItem = data => {
-    const {savedVideos} = this.state
+    const {savedVideos, savedVideosId} = this.state
     const filteredData = savedVideos.filter(eachItem => eachItem.id !== data.id)
-    console.log(filteredData)
-    this.setState({savedVideos: filteredData})
+    const filteredIds = savedVideosId.filter(eachItem => eachItem !== data.id)
+    this.setState({savedVideos: filteredData, savedVideosId: filteredIds})
   }
 
   onChangeActiveTab = id => {
     this.setState({activeTab: id})
   }
 
-  toggleLike = () => {
-    this.setState({isLiked: true, isDisLiked: false})
+  toggleLike = id => {
+    this.setState(prevState => ({
+      likedVideosIds: [...prevState.likedVideosIds, id],
+      disLikedVideosIds: prevState.disLikedVideosIds.filter(
+        eachItem => eachItem !== id,
+      ),
+    }))
   }
 
-  toggleDisLike = () => {
-    this.setState({isDisLiked: true, isLiked: false})
-  }
-
-  toggleSave = () => {
-    this.setState(prevState => ({isSaved: !prevState.isSaved}))
+  toggleDisLike = id => {
+    this.setState(prevState => ({
+      disLikedVideosIds: [...prevState.disLikedVideosIds, id],
+      likedVideosIds: prevState.likedVideosIds.filter(
+        eachItem => eachItem !== id,
+      ),
+    }))
   }
 
   render() {
@@ -78,7 +85,9 @@ class App extends Component {
       activeTab,
       isLiked,
       isDisLiked,
-      isSaved,
+      savedVideosId,
+      likedVideosIds,
+      disLikedVideosIds,
     } = this.state
 
     return (
@@ -93,10 +102,12 @@ class App extends Component {
           activeTab,
           isLiked,
           isDisLiked,
-          isSaved,
+          savedVideosId,
           toggleLike: this.toggleLike,
           toggleDisLike: this.toggleDisLike,
           toggleSave: this.toggleSave,
+          likedVideosIds,
+          disLikedVideosIds,
         }}
       >
         <Switch>

@@ -16,7 +16,7 @@ export const Icon = styled.button`
   margin-top: 15px;
   color: ${props => (props.isLiked ? '#2563eb' : '#64748b')};
   color: ${props => (props.isDisLiked ? '#2563eb' : '#64748b')};
-  color: ${props => (props.isSaved ? '#2563eb' : '#64748b')};
+  color: ${props => (props.value ? '#2563eb' : '#64748b')};
   background: none;
   border-style: none;
 `
@@ -44,7 +44,7 @@ export const SaveButton = styled.button`
   border-style: none;
   background: none;
   display: flex;
-  color: ${props => (props.value ? 'red' : 'green')};
+  color: ${props => (props.value ? '#3b82f6' : '#000000')};
 `
 export const Description1 = styled.p`
   font-family: 'Roboto';
@@ -54,9 +54,8 @@ export const SaveButton1 = styled.button`
   border-style: none;
   background: none;
   font-family: 'Roboto';
-  color: ${props => props.isSaved && '#2563eb'};
   font-weight: bold;
-  color: ${props => (props.value ? 'red' : 'green')};
+  color: ${props => (props.value ? '#3b82f6' : '#000000')};
 `
 export const Icon1 = styled.button`
   margin: 10px;
